@@ -1,0 +1,78 @@
+@font-face {
+  font-family: "Digital-7";
+  src: url("./fonts/digital-7.ttf") format("truetype");
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+}
+
+.container {
+  background-color: #1e1e1e;
+  max-width: 320px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  gap: 10px;
+}
+
+.display {
+  font-family: "Digital-7", monospace;
+  /* font-size: 20px !important; */
+  width: 95%;
+  height: 10vh;
+  background-color: #6d7867;
+  color: black;
+  font-size: 2.5rem;
+  text-align: right;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #363434;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #252424;
+}
+
+.btn:active {
+  background-color: #161515;
+}
+
+#close {
+  background-color: #b90101;
+  transition: background-color 0.3s ease;
+}
+#close:hover {
+  background-color: #a80000e7;
+}
+#close:active {
+  background-color: #a6020279;
+}
