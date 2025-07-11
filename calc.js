@@ -48,7 +48,7 @@ operatorBtn.forEach((button) => {
 
 function getNumbersFromArray(arr) {
   const expression = arr.join("");
-  const numbers = expression.match(/-?\d+(\.\d+)?|-\.\d+|\.\d+/g).map(Number);
+  const numbers = expression.match(/(\d+(\.\d+)?|\.\d+)/g).map(Number);
   return numbers;
 }
 
