@@ -2,27 +2,34 @@ const calcDisplay = document.querySelector(".display");
 const numberBtn = document.querySelectorAll(".btn.number");
 const operatorBtn = document.querySelectorAll(".btn.operator");
 const answerBtn = document.querySelector(".btn.equals");
+const clearBtn = document.querySelector("#close");
+const deleteBtn = document.querySelector(".btn.delete");
 
-let num1 = "";
-let operator = "";
-let num2 = "";
-let isOperator = false;
+let num = [];
+let decimalCount = 0;
+
+clearBtn.addEventListener("click", function () {
+  num.length = 0;
+  decimalCount = 0;
+  calcDisplay.value = num.join("");
+});
+
+deleteBtn.addEventListener("click", function () {
+  const removed = num.pop();
+  if (removed === ".") decimalCount--;
+  calcDisplay.value = num.join("");
+});
 
 numberBtn.forEach((button) => {
   button.addEventListener("click", function () {
     const value = this.getAttribute("data-value");
-    if (!isOperator) {
-      num1 += value;
-      calcDisplay.value = num1;
-      console.log(`num1 : ${num1}`);
-      console.log(`:${typeof num1}`);
+    if (value === ".") {
+      if (decimalCount >= 1) return;
+      decimalCount++;
     }
-    if (isOperator) {
-      num2 += value;
-      calcDisplay.value = `${num1}${operator}${num2}`;
-      console.log(`num2 : ${num2}`);
-      console.log(`:${typeof num2}`);
-    }
+
+    num.push(value);
+    calcDisplay.value = num.join("");
   });
 });
 
@@ -30,42 +37,51 @@ operatorBtn.forEach((button) => {
   button.addEventListener("click", function () {
     const value = this.getAttribute("data-value");
 
-    // if ((num1 = "")) {
-    //   num1 = "0";
-    //   operator = value;
-    // }
-    operator = value;
-    isOperator = true;
-    calcDisplay.value += operator;
-    console.log(`clicked : ${operator}`);
+    if (/[+\-*/]/.test(num[num.length - 1])) return;
+
+    num.push(value);
+    calcDisplay.value = num.join("");
+
+    decimalCount = 0;
   });
 });
 
-answerBtn.addEventListener("click", function () {
-  switch (operator) {
-    case "+":
-      calcDisplay.value = Number(num1) + Number(num2);
-      num1 = calcDisplay.value;
-      num2 = "";
-      operator = "";
-      break;
-    case "-":
-      calcDisplay.value = Number(num1) - Number(num2);
-      num1 = calcDisplay.value;
-      num2 = "";
-      operator = "";
-      break;
-    case "*":
-      calcDisplay.value = Number(num1) * Number(num2);
-      num1 = calcDisplay.value;
-      num2 = "";
-      operator = "";
-      break;
-    case "/":
-      calcDisplay.value = Number(num1) / Number(num2);
-      num1 = calcDisplay.value;
-      num2 = "";
-      operator = "";
-      break;
+function getNumbersFromArray(arr) {
+  const expression = arr.join("");
+  const numbers = expression.match(/-?\d+(\.\d+)?|-\.\d+|\.\d+/g).map(Number);
+  return numbers;
+}
+
+function getOperatorsFromArray(arr) {
+  const expression = arr.join("");
+  const operators = expression.match(/[+\-*/]/g);
+  return operators;
+}
+
+function evalArray() {
+  let numbers = getNumbersFromArray(num);
+  let operators = getOperatorsFromArray(num);
+
+  let result = numbers[0];
+
+  for (let i = 0; i < operators.length; i++) {
+    if (operators[i] === "+") {
+      result += numbers[i + 1];
+    } else if (operators[i] === "-") {
+      result -= numbers[i + 1];
+    } else if (operators[i] === "*") {
+      result *= numbers[i + 1];
+    } else if (operators[i] === "/") {
+      result /= numbers[i + 1];
+    }
   }
-});
+
+  num.length = 0;
+  num.push(result);
+
+  calcDisplay.value = result;
+  decimalCount = 0;
+  return result;
+}
+
+answerBtn.addEventListener("click", evalArray);
