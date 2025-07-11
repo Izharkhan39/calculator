@@ -26,17 +26,17 @@ body {
 
 .display {
   font-family: "Digital-7", monospace;
-  /* font-size: 20px !important; */
-  width: 95%;
-  height: 10vh;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  height: 3.5rem;
   background-color: #6d7867;
   color: black;
-  font-size: 2.5rem;
   text-align: right;
   padding: 10px;
   border-radius: 8px;
   border: none;
   margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 .row {
